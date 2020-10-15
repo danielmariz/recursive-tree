@@ -2,13 +2,15 @@ import React from "react";
 import {map, keys} from 'ramda';
 
 const Item = ({data}) => {
-    return <li>User: {data.name} - Id: {data.id}
-        { data.hasOwnProperty('children') && <List data={data.children} /> }
+    const hasChildren = data.hasOwnProperty('children');
+    return <li>
+        <span>User: {data.name} - Id: {data.id}</span>
+        { hasChildren && <List data={data.children} nested={hasChildren} /> }
     </li>;
 }
 
-export default function List ({data}) {
-    return <ul>
+export default function List ({data, nested}) {
+    return <ul className={!nested ? 'tree' : ''}>
         {   
             !!data ?
                 map(_key => {
